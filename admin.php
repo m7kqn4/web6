@@ -94,7 +94,7 @@ foreach ($users as $user) {
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         h1, h2 {
-            color: #1b4ea0;
+            color: #4169E1;
         }
         .message {
             background: #d4edda;
@@ -115,11 +115,11 @@ foreach ($users as $user) {
             vertical-align: top;
         }
         th {
-            background: #2059b4;
+            background: #B0C4DE;
             color: white;
         }
         .delete-btn {
-            background: #dc3545;
+            background: #b51d12;
             color: white;
             border: none;
             padding: 5px 10px;
@@ -128,7 +128,7 @@ foreach ($users as $user) {
             font-size: 12px;
         }
         .edit-btn {
-            background: #ffc107;
+            background: #4682B4;
             color: #333;
             border: none;
             padding: 5px 10px;
@@ -138,7 +138,7 @@ foreach ($users as $user) {
             margin-right: 5px;
         }
         .stats {
-            background: #e8f0fe;
+            background: #E6E6FA;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
