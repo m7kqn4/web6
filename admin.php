@@ -94,7 +94,7 @@ foreach ($users as $user) {
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         h1, h2 {
-            color: #4169E1;
+            color: #2059b4;
         }
         .message {
             background: #d4edda;
@@ -129,7 +129,7 @@ foreach ($users as $user) {
         }
         .edit-btn {
             background: #4682B4;
-            color: #333;
+            color: white;
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
