@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 header('Content-Type: text/html; charset=UTF-8');
 
 $db = new PDO('mysql:host=localhost;dbname=u82641;charset=utf8', 'u82641', '7937378');
@@ -64,6 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     include('form.php');
 } 
 else {
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die('CSRF token validation failed');
+    }
+    
     $errors = false;
     
     $error_fields = ['fio', 'phone', 'email', 'birthday', 'gender', 'prog_lang', 'agreement'];
