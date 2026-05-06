@@ -1,7 +1,12 @@
 <?php
+session_start();
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 $db = new PDO('mysql:host=localhost;dbname=u82641;charset=utf8', 'u82641', '7937378');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 
 $valid_admin = false;
 
@@ -24,6 +29,10 @@ if (!$valid_admin) {
 
 $message = '';
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+    if (!isset($_GET['token']) || !hash_equals($_SESSION['csrf_token'], $_GET['token'])) {
+        die('CSRF token validation failed');
+    }
+    
     $id = (int)$_GET['delete'];
     
     $stmt = $db->prepare("UPDATE users SET form_data_id = NULL WHERE form_data_id = ?");
@@ -35,6 +44,9 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_id'])) {
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    die('CSRF token validation failed');
+    }
     $id = (int)$_POST['edit_id'];
     $fio = trim($_POST['fio']);
     $email = trim($_POST['email']);
@@ -275,7 +287,7 @@ foreach ($users as $user) {
                     <td><?php echo htmlspecialchars(substr($user['bio'], 0, 100)); ?></td>
                     <td>
                         <button class="edit-btn" onclick="showEditForm(<?php echo $user['id']; ?>)">Редактировать</button>
-                        <a href="?delete=<?php echo $user['id']; ?>" onclick="return confirm('Удалить запись?')">
+                        <a href="?delete=<?php echo $user['id']; ?>&token=<?php echo $_SESSION['csrf_token']; ?>" onclick="...">
                             <button class="delete-btn">Удалить</button>
                         </a>
                     </td>
@@ -283,6 +295,7 @@ foreach ($users as $user) {
                 <tr id="edit-row-<?php echo $user['id']; ?>" class="edit-row">
                     <td colspan="9">
                         <form method="post">
+                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                             <input type="hidden" name="edit_id" value="<?php echo $user['id']; ?>">
                             <div class="form-row">
                                 <label>ФИО:</label>
