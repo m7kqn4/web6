@@ -228,6 +228,13 @@ foreach ($users as $user) {
     </script>
 </head>
 <body>
+
+<div style="margin-top: 30px; padding: 15px; border-top: 1px solid #ddd;">
+    <a href="audit.pdf" target="_blank" style="color: #a7287f; font-weight: bold; text-decoration: none;">
+        Отчет по аудиту безопасности
+    </a>
+</div>
+
 <div class="container">
     <h1>Панель администратора</h1>
     
